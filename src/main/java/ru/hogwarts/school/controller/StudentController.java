@@ -1,5 +1,6 @@
 package ru.hogwarts.school.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Student;
@@ -25,30 +26,27 @@ public class StudentController {
     @GetMapping("{id}")
     public ResponseEntity<Student> getStudent(@PathVariable long id) {
         Student student = studentService.getStudent(id);
-        if (student == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(student);
+        return student!=null ? ResponseEntity.ok(student) : ResponseEntity.notFound().build();
     }
 
     @PutMapping
     public ResponseEntity<Student> updateStudent(@RequestBody Student student) {
         Student temp = studentService.updateStudent(student);
-
-        return temp == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(temp);
+        return temp!=null ? ResponseEntity.ok(temp) : ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Student> deleteStudent(@PathVariable long id) {
-        Student student = studentService.deleteStudent(id);
-        if (student == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(student);
+    public ResponseEntity<?> deleteStudent(@PathVariable long id) {
+        studentService.deleteStudent(id);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/age/{age}")
-    public Collection<Student> filterByAge(@PathVariable int age) {
-        return studentService.filterByAge(age);
+    public ResponseEntity<?> filterByAge(@PathVariable int age) {
+        Collection<Student> temp = studentService.filterStudentByAge(age);
+        if (temp.isEmpty()) {
+            return new ResponseEntity<>("Нет студентов такого возраста", HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(temp);
     }
 }
