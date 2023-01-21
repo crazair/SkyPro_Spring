@@ -29,6 +29,12 @@ public class StudentController {
         return student!=null ? ResponseEntity.ok(student) : ResponseEntity.notFound().build();
     }
 
+    @GetMapping
+    public ResponseEntity<?> getStudents() {
+        Collection<Student> students = studentService.getAllStudents();
+        return !students.isEmpty() ? ResponseEntity.ok(students) : ResponseEntity.notFound().build();
+    }
+
     @PutMapping
     public ResponseEntity<Student> updateStudent(@RequestBody Student student) {
         Student temp = studentService.updateStudent(student);
