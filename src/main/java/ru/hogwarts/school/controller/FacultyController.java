@@ -50,4 +50,10 @@ public class FacultyController {
     public Collection<Faculty> filterByColor(@PathVariable String color) {
         return facultyService.filterFacultyByColor(color);
     }
+
+    @GetMapping("/colorandname/")
+    public Collection<Faculty> findFacultyByColorOrName(@RequestParam(required = false) String color,
+                                                        @RequestParam(required = false) String name){
+        return facultyService.findFacultyByColorOrName(color, name);
+    }
 }

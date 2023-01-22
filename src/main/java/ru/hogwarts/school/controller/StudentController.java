@@ -55,4 +55,14 @@ public class StudentController {
         }
         return ResponseEntity.ok(temp);
     }
+
+    @GetMapping("/agebetween")
+    public ResponseEntity filterByAgeBetween(@RequestParam int minAge, @RequestParam int maxAge){
+        Collection<Student> temp = studentService.filterStudentByAgeBetween(minAge, maxAge);
+        if (temp.isEmpty()) {
+            return new ResponseEntity<>("Нет студентов такого возраста", HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(temp);
+    }
+
 }
