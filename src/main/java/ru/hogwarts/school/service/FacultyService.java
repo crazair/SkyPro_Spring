@@ -42,4 +42,8 @@ public class FacultyService {
     public Collection<Faculty> filterFacultyByColor(String color) {
         return facultyRepository.findAll().stream().filter(s -> s.getColor().equals(color)).toList();
     }
+
+    public Collection<Faculty> findFacultyByColorOrName(String color, String name) {
+        return facultyRepository.findFacultiesByColorContainingIgnoreCaseOrNameContainingIgnoreCase(color, name);
+    }
 }
