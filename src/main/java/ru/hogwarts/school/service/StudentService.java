@@ -25,7 +25,7 @@ public class StudentService {
     }
 
     public Student updateStudent(Student student) {
-        return null;
+        return studentRepository.save(student);
     }
 
     public void deleteStudent(long id) throws EmptyResultDataAccessException {
