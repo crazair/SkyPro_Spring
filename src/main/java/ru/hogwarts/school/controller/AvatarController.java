@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collection;
 
 @RestController
 @RequestMapping("avatar")
@@ -24,6 +25,12 @@ public class AvatarController {
 
     public AvatarController(AvatarService avatarService) {
         this.avatarService = avatarService;
+    }
+
+    @GetMapping
+    public ResponseEntity<Collection<Avatar>> getAvatars() {
+        Collection<Avatar> avatars = avatarService.getAllAvatars();
+        return !avatars.isEmpty() ? ResponseEntity.ok(avatars) : ResponseEntity.notFound().build();
     }
 
     @PostMapping(value = "/{studentId}/avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -60,8 +67,4 @@ public class AvatarController {
         }
     }
 
-    @GetMapping
-    public ResponseEntity<?> getAllAvatars(@RequestParam("page") int page, @RequestParam("size") int size) {
-        return ResponseEntity.ok(avatarService.getAllAvatars(page, size));
-    }
 }
