@@ -8,6 +8,7 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.StudentRepository;
 
 import java.util.Collection;
+import java.util.List;
 
 @Service
 public class StudentService {
@@ -72,6 +73,38 @@ public class StudentService {
                 .filter(a -> a.startsWith("A"))
                 .sorted()
                 .toList();
+    }
+
+    public void printStudentNameInConsole() {
+        List<Student> students = studentRepository.findAll();
+        System.out.println(students.get(0).getName());
+        System.out.println(students.get(1).getName());
+        new Thread(() -> {
+            System.out.println(students.get(2).getName());
+            System.out.println(students.get(3).getName());
+        }).start();
+        new Thread(() -> {
+            System.out.println(students.get(4).getName());
+            System.out.println(students.get(5).getName());
+        }).start();
+    }
+
+    public void printStudentNameInConsoleSync() {
+        List<Student> students = studentRepository.findAll();
+        print(students.get(0));
+        print(students.get(1));
+        new Thread(() -> {
+            print(students.get(2));
+            print(students.get(3));
+        }).start();
+        new Thread(() -> {
+            print(students.get(4));
+            print(students.get(5));
+        }).start();
+    }
+
+    private synchronized void print(Student student) {
+        System.out.println(student.getName());
     }
 
 }
