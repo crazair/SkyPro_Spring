@@ -65,4 +65,9 @@ public class StudentController {
         return ResponseEntity.ok(temp);
     }
 
+    @GetMapping("/startswitha")
+    public ResponseEntity<?> getStudentsStartsWithA() {
+        return ResponseEntity.ok(studentService.getStudentsStartsWithA());
+    }
+
 }

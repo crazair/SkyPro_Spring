@@ -54,4 +54,24 @@ public class StudentService {
         log.debug("Вызван метод filterStudentByAgeBetween c minAge = {} и с maxAge = {}", minAge, maxAge);
         return studentRepository.findStudentByAgeBetween(minAge, maxAge);
     }
+
+    public String getAverageAge() {
+        log.debug("Вызван метод getAverageAge");
+        Double result = studentRepository.findAll().stream()
+                .parallel()
+                .mapToDouble(Student::getAge)
+                .average().orElse(0);
+        return String.format("%.1f", result);
+    }
+
+    public Collection<String> getStudentsStartsWithA() {
+        log.debug("Вызван метод getStudentsStartsWithA");
+        return studentRepository.findAll().stream()
+                .parallel()
+                .map(a -> a.getName().toUpperCase())
+                .filter(a -> a.startsWith("A"))
+                .sorted()
+                .toList();
+    }
+
 }
