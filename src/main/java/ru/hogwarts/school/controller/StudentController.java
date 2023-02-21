@@ -65,4 +65,20 @@ public class StudentController {
         return ResponseEntity.ok(temp);
     }
 
+    @GetMapping("/startswitha")
+    public ResponseEntity<?> getStudentsStartsWithA() {
+        return ResponseEntity.ok(studentService.getStudentsStartsWithA());
+    }
+
+    @GetMapping("/print")
+    public ResponseEntity<?> printStudentNameInConsole() {
+        studentService.printStudentNameInConsole();
+        return ResponseEntity.ok("ок");
+    }
+    @GetMapping("/printsync")
+    public ResponseEntity<?> printStudentNameInConsoleSync() {
+        studentService.printStudentNameInConsoleSync();
+        return ResponseEntity.ok("ок");
+    }
+
 }
